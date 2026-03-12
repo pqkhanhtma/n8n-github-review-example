@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:n8ndistribution/components/app_text_field.dart';
+import 'package:n8ndistribution/components/n8n_button.dart';
 
 // Placeholder for constants. In a real project, these would be imported
 // from a central constants file like 'package:n8ndistribution/cores/constants/app_colors.dart'
@@ -153,19 +154,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: _kLargeSpacing),
-                ElevatedButton(
+                N8nButton(
                   onPressed: _onLoginPressed,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: _kPrimaryColor, // Button background color
-                    padding: const EdgeInsets.symmetric(vertical: _kDefaultPadding),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(_kDefaultBorderRadius),
-                    ),
-                  ),
-                  child: const Text(
-                    'Login',
-                    style: TextStyle(fontSize: 18, color: Colors.white),
-                  ),
+                  text: 'Login',
+                  backgroundColor: _kPrimaryColor,
+                  padding: const EdgeInsets.symmetric(vertical: _kDefaultPadding),
+                  borderRadius: BorderRadius.circular(_kDefaultBorderRadius),
+                  textStyle: const TextStyle(fontSize: 18, color: Colors.white),
                 ),
                 const SizedBox(height: _kLargeSpacing),
                 Row(
