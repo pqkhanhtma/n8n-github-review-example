@@ -144,6 +144,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   keyboardType: TextInputType.emailAddress,
                   validator: _emailValidator,
                   prefixIcon: const Icon(Icons.email_outlined), // Changed to outlined for modern look
+                  filled: true, // Added to match design
+                  fillColor: Colors.white, // Added to match design
                 ),
                 const SizedBox(height: _kMediumSpacing),
                 AppTextField(
@@ -155,6 +157,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   onToggleVisibility: _togglePasswordVisibility,
                   validator: _passwordValidator,
                   prefixIcon: const Icon(Icons.lock_outline), // Changed to outlined for modern look
+                  filled: true, // Added to match design
+                  fillColor: Colors.white, // Added to match design
                 ),
                 const SizedBox(height: _kSmallSpacing),
                 Align(
