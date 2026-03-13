@@ -3,6 +3,7 @@ import 'package:n8ndistribution/routes/app_route.dart';
 import 'package:n8ndistribution/screens/login_screen.dart'; // New import for LoginScreen
 
 final GoRouter router = GoRouter(
+  initialLocation: AppRoute.login.path, // Set the initial route for GoRouter
   routes: <GoRoute>[
     // Existing routes (example, if any)
     // GoRoute(
