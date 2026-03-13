@@ -179,16 +179,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: _onLoginPressed,
                   text: 'Login',
                   backgroundColor: _kPrimaryColor,
-                  // Removed explicit padding and borderRadius to let N8nButton defaults handle it,
-                  // or rely on its internal defaults which are already 56 height and 8 radius.
-                  // The current N8nButton already has a default height of 56 and borderRadius of 8.
-                  // The textStyle also has a default.
-                  // So, these explicit parameters can be removed for cleaner code if defaults are desired.
-                  // If the design implies a different padding or radius, I would add them back.
-                  // For now, I'll remove them to rely on N8nButton's internal defaults.
-                  // padding: const EdgeInsets.symmetric(vertical: _kDefaultPadding), // N8nButton has internal padding logic
-                  // borderRadius: BorderRadius.circular(_kDefaultBorderRadius), // N8nButton has internal borderRadius logic
-                  // textStyle: const TextStyle(fontSize: 18, color: Colors.white), // N8nButton has internal textStyle logic
                 ),
                 const SizedBox(height: _kExtraLargeSpacing), // More spacing before "Don't have an account?"
                 Row(
