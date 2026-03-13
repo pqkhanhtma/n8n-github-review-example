@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:n8ndistribution/components/app_text_field.dart';
 import 'package:n8ndistribution/components/n8n_button.dart';
+import 'package:n8ndistribution/components/paragraph.dart'; // Import Paragraph
 
 // Placeholder for constants. In a real project, these would be imported
 // from a central constants file like 'package:n8ndistribution/cores/constants/app_colors.dart'
@@ -10,6 +11,7 @@ const double _kDefaultPadding = 16.0;
 const double _kSmallSpacing = 8.0;
 const double _kMediumSpacing = 16.0;
 const double _kLargeSpacing = 24.0;
+const double _kExtraLargeSpacing = 32.0; // Added for more prominent spacing
 const Color _kPrimaryColor = Colors.blue;
 const Color _kTextColor = Colors.black;
 const Color _kLinkColor = Colors.blue;
@@ -100,10 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-        centerTitle: true,
-      ),
+      // Removed AppBar for a full-screen, immersive login experience
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(_kDefaultPadding),
@@ -113,23 +112,38 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                const Text(
+                // Title
+                Text(
                   'Welcome Back!',
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: _kTextColor,
-                  ),
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: _kTextColor,
+                      ) ??
+                      const TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        color: _kTextColor,
+                      ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: _kLargeSpacing),
+                const SizedBox(height: _kSmallSpacing), // Smaller spacing after title
+                // Subtitle/Description
+                const Paragraph(
+                  text: 'Login to your account to continue.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey, // A lighter color for subtitle
+                  ),
+                ),
+                const SizedBox(height: _kExtraLargeSpacing), // More spacing before inputs
                 AppTextField(
                   controller: _emailController,
                   hintText: 'Enter your email',
                   labelText: 'Email',
                   keyboardType: TextInputType.emailAddress,
                   validator: _emailValidator,
-                  prefixIcon: const Icon(Icons.email),
+                  prefixIcon: const Icon(Icons.email_outlined), // Changed to outlined for modern look
                 ),
                 const SizedBox(height: _kMediumSpacing),
                 AppTextField(
@@ -140,41 +154,65 @@ class _LoginScreenState extends State<LoginScreen> {
                   obscureText: _obscureText,
                   onToggleVisibility: _togglePasswordVisibility,
                   validator: _passwordValidator,
-                  prefixIcon: const Icon(Icons.lock),
+                  prefixIcon: const Icon(Icons.lock_outline), // Changed to outlined for modern look
                 ),
                 const SizedBox(height: _kSmallSpacing),
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: _onForgotPasswordPressed,
-                    child: const Text(
+                    child: Text(
                       'Forgot Password?',
-                      style: TextStyle(color: _kLinkColor),
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: _kLinkColor,
+                            fontWeight: FontWeight.w600, // Slightly bolder for link
+                          ) ??
+                          const TextStyle(
+                            color: _kLinkColor,
+                            fontWeight: FontWeight.w600,
+                          ),
                     ),
                   ),
                 ),
-                const SizedBox(height: _kLargeSpacing),
+                const SizedBox(height: _kExtraLargeSpacing), // More spacing before button
                 N8nButton(
                   onPressed: _onLoginPressed,
                   text: 'Login',
                   backgroundColor: _kPrimaryColor,
-                  padding: const EdgeInsets.symmetric(vertical: _kDefaultPadding),
-                  borderRadius: BorderRadius.circular(_kDefaultBorderRadius),
-                  textStyle: const TextStyle(fontSize: 18, color: Colors.white),
+                  // Removed explicit padding and borderRadius to let N8nButton defaults handle it,
+                  // or rely on its internal defaults which are already 56 height and 8 radius.
+                  // The current N8nButton already has a default height of 56 and borderRadius of 8.
+                  // The textStyle also has a default.
+                  // So, these explicit parameters can be removed for cleaner code if defaults are desired.
+                  // If the design implies a different padding or radius, I would add them back.
+                  // For now, I'll remove them to rely on N8nButton's internal defaults.
+                  // padding: const EdgeInsets.symmetric(vertical: _kDefaultPadding), // N8nButton has internal padding logic
+                  // borderRadius: BorderRadius.circular(_kDefaultBorderRadius), // N8nButton has internal borderRadius logic
+                  // textStyle: const TextStyle(fontSize: 18, color: Colors.white), // N8nButton has internal textStyle logic
                 ),
-                const SizedBox(height: _kLargeSpacing),
+                const SizedBox(height: _kExtraLargeSpacing), // More spacing before "Don't have an account?"
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    const Text(
+                    Text(
                       "Don't have an account?",
-                      style: TextStyle(color: _kTextColor),
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: _kTextColor,
+                          ) ??
+                          const TextStyle(color: _kTextColor),
                     ),
                     TextButton(
                       onPressed: _onSignUpPressed,
-                      child: const Text(
+                      child: Text(
                         'Sign Up',
-                        style: TextStyle(color: _kLinkColor),
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: _kLinkColor,
+                              fontWeight: FontWeight.w600, // Slightly bolder for link
+                            ) ??
+                            const TextStyle(
+                              color: _kLinkColor,
+                              fontWeight: FontWeight.w600,
+                            ),
                       ),
                     ),
                   ],
