@@ -115,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 // Title
                 Text(
                   'Welcome Back!',
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  style: Theme.of(context).textTheme.headlineLarge?.copyWith( // Changed from headlineMedium to headlineLarge for more prominence
                         fontWeight: FontWeight.bold,
                         color: _kTextColor,
                       ) ??
