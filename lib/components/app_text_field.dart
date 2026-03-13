@@ -11,7 +11,7 @@ const Color _kDefaultBorderColor = Colors.grey;
 const Color _kFocusedBorderColor = Colors.blue;
 const Color _kErrorBorderColor = Colors.red;
 const Color _kHintTextColor = Colors.grey;
-const Color _kLabelTextColor = Colors.black;
+const Color _kLabelTextColor = Colors.grey; // Updated from Colors.black to Colors.grey
 const Color _kIconColor = Colors.grey;
 
 /// A highly configurable and reusable text input field component.
@@ -88,7 +88,7 @@ class AppTextField extends StatelessWidget {
   final Color? fillColor;
 
   /// If true, the decoration's container is filled with [fillColor].
-  final bool filled;
+  final bool? filled; // Changed to nullable bool to allow explicit null for default behavior
 
   /// The border to display around the input decorator's container.
   final InputBorder? border;
@@ -134,7 +134,7 @@ class AppTextField extends StatelessWidget {
     this.suffixIcon,
     this.contentPadding,
     this.fillColor,
-    this.filled = false,
+    this.filled,
     this.border,
     this.enabledBorder,
     this.focusedBorder,
@@ -200,7 +200,7 @@ class AppTextField extends StatelessWidget {
         hintText: hintText,
         labelText: labelText,
         hintStyle: hintStyle ?? const TextStyle(color: _kHintTextColor),
-        labelStyle: labelStyle ?? const TextStyle(color: _kLabelTextColor),
+        labelStyle: labelStyle ?? const TextStyle(color: _kLabelTextColor), // Uses updated _kLabelTextColor
         prefixIcon: prefixIcon,
         suffixIcon: effectiveSuffixIcon,
         contentPadding: contentPadding ??
