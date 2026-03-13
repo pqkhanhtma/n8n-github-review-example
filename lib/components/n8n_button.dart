@@ -81,8 +81,7 @@ class N8nButton extends StatelessWidget {
               if (states.contains(MaterialState.disabled)) {
                 // Dim the background color when the button is disabled
                 return (backgroundColor ?? defaultBackgroundColor).withOpacity(0.5);
-              }
-              return backgroundColor ?? defaultBackgroundColor;
+              }              return backgroundColor ?? defaultBackgroundColor;
             },
           ),
           // Resolve foreground color (text and splash) based on button state
