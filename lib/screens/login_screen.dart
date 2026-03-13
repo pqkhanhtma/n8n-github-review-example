@@ -179,10 +179,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: _kExtraLargeSpacing), // More spacing before button
-                N8nButton(
-                  onPressed: _onLoginPressed,
-                  text: 'Login',
-                  backgroundColor: _kPrimaryColor,
+                Center(
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.5, // Set button width to 1/2 of screen
+                    child: N8nButton(
+                      onPressed: _onLoginPressed,
+                      text: 'Sign In', // Changed text from 'Login' to 'Sign In'
+                      backgroundColor: Colors.black, // Changed background color to black
+                    ),
+                  ),
                 ),
                 const SizedBox(height: _kExtraLargeSpacing), // More spacing before "Don't have an account?"
                 Row(
