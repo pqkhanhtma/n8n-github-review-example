@@ -11,6 +11,7 @@ class CommonButton extends StatelessWidget {
   final FontWeight fontWeight;
   final EdgeInsetsGeometry? padding;
   final BorderRadiusGeometry? borderRadius;
+  final double? elevation; // New parameter
 
   const CommonButton({
     Key? key,
@@ -24,6 +25,7 @@ class CommonButton extends StatelessWidget {
     this.fontWeight = FontWeight.w300, // Thin font weight
     this.padding,
     this.borderRadius,
+    this.elevation = 0, // Default to 0, but can be overridden
   }) : super(key: key);
 
   @override
@@ -40,7 +42,7 @@ class CommonButton extends StatelessWidget {
             borderRadius: borderRadius ?? BorderRadius.circular(4.0), // Default slight curve
           ),
           padding: padding ?? const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-          elevation: 0, // Explicitly set elevation to 0 for a "solid" look as per description
+          elevation: elevation, // Use the new elevation parameter
         ),
         child: Text(
           text.toUpperCase(), // Ensure text is uppercase as per description
