@@ -40,6 +40,28 @@ class N8nTextField extends StatelessWidget {
   /// If true, a suffix icon for visibility toggle will be shown.
   final bool isPasswordField;
 
+  // --- New parameters for customization ---
+  /// Custom fill color for the text field background.
+  final Color? fieldFillColor;
+
+  /// Custom border radius for the text field.
+  final BorderRadius? fieldBorderRadius;
+
+  /// Custom text style for the user input.
+  final TextStyle? fieldTextStyle;
+
+  /// Custom text style for the hint text.
+  final TextStyle? fieldHintStyle;
+
+  /// Custom text style for the label text.
+  final TextStyle? fieldLabelStyle;
+
+  /// Custom color for prefix and suffix icons.
+  final Color? fieldIconColor;
+
+  /// Whether to show the default OutlineInputBorder or use InputBorder.none.
+  final bool showBorder;
+
   /// Creates an [N8nTextField] widget.
   const N8nTextField({
     super.key,
@@ -52,50 +74,64 @@ class N8nTextField extends StatelessWidget {
     this.onChanged,
     this.onSuffixIconPressed,
     this.isPasswordField = false, // Default to false for standard input
+    // New parameters
+    this.fieldFillColor,
+    this.fieldBorderRadius,
+    this.fieldTextStyle,
+    this.fieldHintStyle,
+    this.fieldLabelStyle,
+    this.fieldIconColor,
+    this.showBorder = true, // Default to true to maintain existing behavior
   });
 
   @override
   Widget build(BuildContext context) {
+    final BorderRadius effectiveBorderRadius = fieldBorderRadius ?? BorderRadius.circular(8.0);
+    final InputBorder effectiveBorder = showBorder
+        ? OutlineInputBorder(
+            borderRadius: effectiveBorderRadius,
+            borderSide: const BorderSide(color: AppColors.lightGrey),
+          )
+        : InputBorder.none;
+
+    final InputBorder effectiveFocusedBorder = showBorder
+        ? OutlineInputBorder(
+            borderRadius: effectiveBorderRadius,
+            borderSide: const BorderSide(color: AppColors.primaryColor),
+          )
+        : InputBorder.none;
+
     return TextField(
       controller: controller,
       keyboardType: keyboardType,
       obscureText: obscureText,
       onChanged: onChanged,
-      style: const TextStyle(color: AppColors.darkGrey), // Text color for user input
+      style: fieldTextStyle ?? const TextStyle(color: AppColors.darkGrey), // Use custom or default
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: const TextStyle(color: AppColors.lightGrey), // Style for placeholder text
+        hintStyle: fieldHintStyle ?? const TextStyle(color: AppColors.lightGrey), // Use custom or default
         labelText: labelText,
-        labelStyle: const TextStyle(color: AppColors.darkGrey), // Style for label text
+        labelStyle: fieldLabelStyle ?? const TextStyle(color: AppColors.darkGrey), // Use custom or default
         prefixIcon: prefixIcon != null
             ? Icon(
                 prefixIcon,
-                color: AppColors.darkGrey, // Color for the prefix icon
+                color: fieldIconColor ?? AppColors.darkGrey, // Use custom or default
               )
             : null,
         suffixIcon: isPasswordField
             ? IconButton(
                 icon: Icon(
                   obscureText ? Icons.visibility_off : Icons.visibility, // Toggle icon based on obscureText
-                  color: AppColors.darkGrey, // Color for the suffix icon
+                  color: fieldIconColor ?? AppColors.darkGrey, // Use custom or default
                 ),
                 onPressed: onSuffixIconPressed, // Callback for suffix icon press
               )
             : null,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.0),
-          borderSide: const BorderSide(color: AppColors.lightGrey), // Default border color
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.0),
-          borderSide: const BorderSide(color: AppColors.lightGrey), // Border color when enabled
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.0),
-          borderSide: const BorderSide(color: AppColors.primaryColor), // Border color when focused
-        ),
+        border: effectiveBorder,
+        enabledBorder: effectiveBorder,
+        focusedBorder: effectiveFocusedBorder,
         filled: true,
-        fillColor: AppColors.white, // Background color of the text field
+        fillColor: fieldFillColor ?? AppColors.white, // Use custom or default
         contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
       ),
     );
