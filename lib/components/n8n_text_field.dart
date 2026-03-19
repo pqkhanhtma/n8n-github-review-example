@@ -62,6 +62,15 @@ class N8nTextField extends StatelessWidget {
   /// Whether to show the default OutlineInputBorder or use InputBorder.none.
   final bool showBorder;
 
+  /// Custom color for the input text. Overrides [fieldTextStyle.color] if both are provided.
+  final Color? fieldTextColor;
+
+  /// Custom color for the hint text. Overrides [fieldHintStyle.color] if both are provided.
+  final Color? fieldHintColor;
+
+  /// A semantic description of the text field's purpose for accessibility.
+  final String? semanticsLabel;
+
   /// Creates an [N8nTextField] widget.
   const N8nTextField({
     super.key,
@@ -82,6 +91,9 @@ class N8nTextField extends StatelessWidget {
     this.fieldLabelStyle,
     this.fieldIconColor,
     this.showBorder = true, // Default to true to maintain existing behavior
+    this.fieldTextColor,
+    this.fieldHintColor,
+    this.semanticsLabel,
   });
 
   @override
@@ -101,15 +113,21 @@ class N8nTextField extends StatelessWidget {
           )
         : InputBorder.none;
 
+    // Determine the effective text style, prioritizing fieldTextStyle, then fieldTextColor, then default.
+    final TextStyle effectiveTextStyle = fieldTextStyle ?? TextStyle(color: fieldTextColor ?? AppColors.darkGrey);
+    // Determine the effective hint style, prioritizing fieldHintStyle, then fieldHintColor, then default.
+    final TextStyle effectiveHintStyle = fieldHintStyle ?? TextStyle(color: fieldHintColor ?? AppColors.lightGrey);
+
     return TextField(
       controller: controller,
       keyboardType: keyboardType,
       obscureText: obscureText,
       onChanged: onChanged,
-      style: fieldTextStyle ?? const TextStyle(color: AppColors.darkGrey), // Use custom or default
+      style: effectiveTextStyle, // Use effective text style
+      semanticsLabel: semanticsLabel, // Pass semanticsLabel
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: fieldHintStyle ?? const TextStyle(color: AppColors.lightGrey), // Use custom or default
+        hintStyle: effectiveHintStyle, // Use effective hint style
         labelText: labelText,
         labelStyle: fieldLabelStyle ?? const TextStyle(color: AppColors.darkGrey), // Use custom or default
         prefixIcon: prefixIcon != null
