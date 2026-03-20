@@ -71,6 +71,9 @@ class N8nTextField extends StatelessWidget {
   /// A semantic description of the text field's purpose for accessibility.
   final String? semanticsLabel;
 
+  /// Custom box decoration for the entire text field container, allowing for shadows, etc.
+  final BoxDecoration? boxDecoration;
+
   /// Creates an [N8nTextField] widget.
   const N8nTextField({
     super.key,
@@ -94,6 +97,7 @@ class N8nTextField extends StatelessWidget {
     this.fieldTextColor,
     this.fieldHintColor,
     this.semanticsLabel,
+    this.boxDecoration, // Initialize new parameter
   });
 
   @override
@@ -118,39 +122,42 @@ class N8nTextField extends StatelessWidget {
     // Determine the effective hint style, prioritizing fieldHintStyle, then fieldHintColor, then default.
     final TextStyle effectiveHintStyle = fieldHintStyle ?? TextStyle(color: fieldHintColor ?? AppColors.lightGrey);
 
-    return TextField(
-      controller: controller,
-      keyboardType: keyboardType,
-      obscureText: obscureText,
-      onChanged: onChanged,
-      style: effectiveTextStyle, // Use effective text style
-      semanticsLabel: semanticsLabel, // Pass semanticsLabel
-      decoration: InputDecoration(
-        hintText: hintText,
-        hintStyle: effectiveHintStyle, // Use effective hint style
-        labelText: labelText,
-        labelStyle: fieldLabelStyle ?? const TextStyle(color: AppColors.darkGrey), // Use custom or default
-        prefixIcon: prefixIcon != null
-            ? Icon(
-                prefixIcon,
-                color: fieldIconColor ?? AppColors.darkGrey, // Use custom or default
-              )
-            : null,
-        suffixIcon: isPasswordField
-            ? IconButton(
-                icon: Icon(
-                  obscureText ? Icons.visibility_off : Icons.visibility, // Toggle icon based on obscureText
+    return Container(
+      decoration: boxDecoration, // Apply custom box decoration if provided
+      child: TextField(
+        controller: controller,
+        keyboardType: keyboardType,
+        obscureText: obscureText,
+        onChanged: onChanged,
+        style: effectiveTextStyle, // Use effective text style
+        semanticsLabel: semanticsLabel, // Pass semanticsLabel
+        decoration: InputDecoration(
+          hintText: hintText,
+          hintStyle: effectiveHintStyle, // Use effective hint style
+          labelText: labelText,
+          labelStyle: fieldLabelStyle ?? const TextStyle(color: AppColors.darkGrey), // Use custom or default
+          prefixIcon: prefixIcon != null
+              ? Icon(
+                  prefixIcon,
                   color: fieldIconColor ?? AppColors.darkGrey, // Use custom or default
-                ),
-                onPressed: onSuffixIconPressed, // Callback for suffix icon press
-              )
-            : null,
-        border: effectiveBorder,
-        enabledBorder: effectiveBorder,
-        focusedBorder: effectiveFocusedBorder,
-        filled: true,
-        fillColor: fieldFillColor ?? AppColors.white, // Use custom or default
-        contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+                )
+              : null,
+          suffixIcon: isPasswordField
+              ? IconButton(
+                  icon: Icon(
+                    obscureText ? Icons.visibility_off : Icons.visibility, // Toggle icon based on obscureText
+                    color: fieldIconColor ?? AppColors.darkGrey, // Use custom or default
+                  ),
+                  onPressed: onSuffixIconPressed, // Callback for suffix icon press
+                )
+              : null,
+          border: effectiveBorder,
+          enabledBorder: effectiveBorder,
+          focusedBorder: effectiveFocusedBorder,
+          filled: true,
+          fillColor: fieldFillColor ?? AppColors.white, // Use custom or default
+          contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+        ),
       ),
     );
   }
