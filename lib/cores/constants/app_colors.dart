@@ -22,8 +22,8 @@ class AppColors {
 
   // Add other application-specific colors here as needed.
   /// Light blue color for gradient background.
-  static const Color gradientBlueLight = Color(0xFF63B3ED); // Corresponds to Colors.lightBlue[400]
+  static const Color gradientBlueLight = Color(0xFF5AC6FA); // Updated to match design
 
   /// Darker blue color for gradient background.
-  static const Color gradientBlueDark = Color(0xFF3B82F6); // Corresponds to Colors.blue[700]
+  static const Color gradientBlueDark = Color(0xFF388CFE); // Updated to match design
 }
