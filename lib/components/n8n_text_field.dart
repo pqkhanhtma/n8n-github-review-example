@@ -71,6 +71,9 @@ class N8nTextField extends StatelessWidget {
   /// A semantic description of the text field's purpose for accessibility.
   final String? semanticsLabel;
 
+  /// Custom content padding.
+  final EdgeInsetsGeometry? contentPadding;
+
   /// Creates an [N8nTextField] widget.
   const N8nTextField({
     super.key,
@@ -94,6 +97,7 @@ class N8nTextField extends StatelessWidget {
     this.fieldTextColor,
     this.fieldHintColor,
     this.semanticsLabel,
+    this.contentPadding,
   });
 
   @override
@@ -118,8 +122,7 @@ class N8nTextField extends StatelessWidget {
     // Determine the effective hint style, prioritizing fieldHintStyle, then fieldHintColor, then default.
     final TextStyle effectiveHintStyle = fieldHintStyle ?? TextStyle(color: fieldHintColor ?? AppColors.lightGrey);
 
-    return TextField(
-      controller: controller,
+    return TextField(      controller: controller,
       keyboardType: keyboardType,
       obscureText: obscureText,
       onChanged: onChanged,
@@ -150,7 +153,7 @@ class N8nTextField extends StatelessWidget {
         focusedBorder: effectiveFocusedBorder,
         filled: true,
         fillColor: fieldFillColor ?? AppColors.white, // Use custom or default
-        contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+        contentPadding: contentPadding ?? const EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
       ),
     );
   }
