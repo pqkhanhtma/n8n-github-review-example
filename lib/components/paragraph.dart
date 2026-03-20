@@ -1,5 +1,5 @@
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.n8n_text_field.dart';
 
 /// A data model to represent a segment of text within the Paragraph component.
 /// This allows for different styles and optional tap handlers for specific parts of the text.
@@ -75,12 +75,6 @@ class Paragraph extends StatelessWidget {
   /// according to [overflow].
   final int? maxLines;
 
-  /// The number of font pixels for each logical pixel.
-  ///
-  /// For example, if the text scale factor is 1.5, then 14pt text will be
-  /// rendered as if it were 21pt text.
-  final double? textScaleFactor;
-
   /// The strut style to use. Strut style defines the minimum height a line
   /// should occupy.
   final StrutStyle? strutStyle;
@@ -88,12 +82,6 @@ class Paragraph extends StatelessWidget {
   /// The locale used to select a font when the font family is a list of font
   /// families.
   final Locale? locale;
-
-  /// An alternative semantics label for this text.
-  ///
-  /// If present, the semantics of this widget will contain this value instead
-  /// of the actual text.
-  final String? semanticsLabel;
 
   /// The strategy to use when measuring the width of the text.
   final TextWidthBasis? textWidthBasis;
@@ -110,10 +98,8 @@ class Paragraph extends StatelessWidget {
     this.softWrap,
     this.overflow,
     this.maxLines,
-    this.textScaleFactor,
     this.strutStyle,
     this.locale,
-    this.semanticsLabel,
     this.textWidthBasis,
     this.textHeightBehavior,
   }) : super(key: key);
@@ -134,10 +120,8 @@ class Paragraph extends StatelessWidget {
       softWrap: softWrap ?? true,
       overflow: overflow ?? TextOverflow.clip,
       maxLines: maxLines,
-      textScaleFactor: textScaleFactor,
       strutStyle: strutStyle,
       locale: locale,
-      semanticsLabel: semanticsLabel,
       textWidthBasis: textWidthBasis ?? TextWidthBasis.parent,
       textHeightBehavior: textHeightBehavior,
       text: TextSpan(
