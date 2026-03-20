@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // Import for SystemUiOverlayStyle
 import 'package:n8ndistribution/components/common_button.dart';
 import 'package:n8ndistribution/components/n8n_text_field.dart';
 import 'package:n8ndistribution/components/paragraph.dart';
@@ -57,246 +58,252 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              AppColors.gradientBlueLight, // Lighter blue
-              AppColors.gradientBlueDark, // Darker blue
-            ],
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light.copyWith(
+        statusBarIconBrightness: Brightness.light, // For Android
+        statusBarBrightness: Brightness.dark, // For iOS
+      ),
+      child: Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                AppColors.gradientBlueLight, // Lighter blue
+                AppColors.gradientBlueDark, // Darker blue
+              ],
+            ),
           ),
-        ),
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Status bar spacing
-              SizedBox(height: MediaQuery.of(context).padding.top + 40),
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Status bar spacing and Sign In Title
+                SizedBox(height: MediaQuery.of(context).padding.top + 80), // Adjusted spacing
 
-              // Sign In Title
-              const Center(
-                child: Text(
-                  "Sign In",
-                  style: TextStyle(
-                    color: AppColors.white,
-                    fontSize: 32.0,
-                    fontWeight: FontWeight.bold,
+                const Center(
+                  child: Text(
+                    "Sign In",
+                    style: TextStyle(
+                      color: AppColors.white,
+                      fontSize: 32.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 50.0),
+                // Removed SizedBox(height: 50.0) here as spacing is now handled above
+                const SizedBox(height: 50.0), // Spacing between title and first input field
 
-              // Email Label
-              const Text(
-                "Email",
-                style: TextStyle(
-                  color: AppColors.white,
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.normal,
+                // Email Label
+                const Text(
+                  "Email",
+                  style: TextStyle(
+                    color: AppColors.white,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w500, // Updated font weight
+                  ),
                 ),
-              ),
-              const SizedBox(height: 10.0),
+                const SizedBox(height: 10.0),
 
-              // Email Input Field
-              Container(
-                decoration: BoxDecoration(
-                  color: AppColors.white.withOpacity(0.3),
-                  borderRadius: BorderRadius.circular(10.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.darkGrey.withOpacity(0.1),
-                      blurRadius: 4,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: N8nTextField(
-                  controller: _emailController,
-                  hintText: "Enter your Email",
-                  prefixIcon: Icons.email_outlined,
-                  keyboardType: TextInputType.emailAddress,
-                  onChanged: (value) => setState(() {}), // Trigger rebuild for potential validation (not implemented here)
-                  fieldFillColor: Colors.transparent, // Background handled by Container
-                  fieldBorderRadius: BorderRadius.circular(10.0),
-                  fieldTextColor: AppColors.white,
-                  fieldHintColor: AppColors.white.withOpacity(0.7),
-                  fieldIconColor: AppColors.white,
-                  showBorder: false, // No default border
-                ),
-              ),
-              const SizedBox(height: 20.0),
-
-              // Password Label
-              const Text(
-                "Password",
-                style: TextStyle(
-                  color: AppColors.white,
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              const SizedBox(height: 10.0),
-
-              // Password Input Field
-              Container(
-                decoration: BoxDecoration(
-                  color: AppColors.white.withOpacity(0.3),
-                  borderRadius: BorderRadius.circular(10.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.darkGrey.withOpacity(0.1),
-                      blurRadius: 4,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: N8nTextField(
-                  controller: _passwordController,
-                  hintText: "******",
-                  prefixIcon: Icons.lock_outline,
-                  isPasswordField: true,
-                  obscureText: _obscureText,
-                  onChanged: (value) => setState(() {}), // Trigger rebuild
-                  onSuffixIconPressed: _togglePasswordVisibility,
-                  fieldFillColor: Colors.transparent, // Background handled by Container
-                  fieldBorderRadius: BorderRadius.circular(10.0),
-                  fieldTextColor: AppColors.white,
-                  fieldHintColor: AppColors.white.withOpacity(0.7),
-                  fieldIconColor: AppColors.white,
-                  showBorder: false, // No default border
-                ),
-              ),
-              const SizedBox(height: 15.0),
-
-              // Remember me & Forgot Password
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Checkbox(
-                        value: _rememberMe,
-                        onChanged: (bool? newValue) {
-                          setState(() {
-                            _rememberMe = newValue ?? false;
-                          });
-                        },
-                        activeColor: AppColors.gradientBlueDark, // Darker blue when checked
-                        checkColor: AppColors.white, // White checkmark
-                        side: const BorderSide(color: AppColors.white, width: 1.5), // White border when unchecked
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                // Email Input Field
+                Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.white.withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(12.0), // Updated border radius
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.darkGrey.withOpacity(0.1),
+                        blurRadius: 4,
+                        offset: const Offset(0, 2),
                       ),
-                      const Text(
-                        "Remember me",
+                    ],
+                  ),
+                  child: N8nTextField(
+                    controller: _emailController,
+                    hintText: "Enter your Email",
+                    prefixIcon: Icons.email_outlined,
+                    keyboardType: TextInputType.emailAddress,
+                    onChanged: (value) => setState(() {}),
+                    fieldFillColor: Colors.transparent,
+                    fieldBorderRadius: BorderRadius.circular(12.0), // Updated border radius
+                    fieldTextColor: AppColors.white,
+                    fieldHintColor: AppColors.white.withOpacity(0.7),
+                    fieldIconColor: AppColors.white,
+                    showBorder: false,
+                  ),
+                ),
+                const SizedBox(height: 20.0),
+
+                // Password Label
+                const Text(
+                  "Password",
+                  style: TextStyle(
+                    color: AppColors.white,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w500, // Updated font weight
+                  ),
+                ),
+                const SizedBox(height: 10.0),
+
+                // Password Input Field
+                Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.white.withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(12.0), // Updated border radius
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.darkGrey.withOpacity(0.1),
+                        blurRadius: 4,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: N8nTextField(
+                    controller: _passwordController,
+                    hintText: "******",
+                    prefixIcon: Icons.lock_outline,
+                    isPasswordField: true,
+                    obscureText: _obscureText,
+                    onChanged: (value) => setState(() {}),
+                    onSuffixIconPressed: _togglePasswordVisibility,
+                    fieldFillColor: Colors.transparent,
+                    fieldBorderRadius: BorderRadius.circular(12.0), // Updated border radius
+                    fieldTextColor: AppColors.white,
+                    fieldHintColor: AppColors.white.withOpacity(0.7),
+                    fieldIconColor: AppColors.white,
+                    showBorder: false,
+                  ),
+                ),
+                const SizedBox(height: 16.0), // Updated spacing
+
+                // Remember me & Forgot Password
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: _rememberMe,
+                          onChanged: (bool? newValue) {
+                            setState(() {
+                              _rememberMe = newValue ?? false;
+                            });
+                          },
+                          activeColor: AppColors.gradientBlueDark, // Darker blue when checked
+                          checkColor: AppColors.white, // White checkmark
+                          side: const BorderSide(color: AppColors.white, width: 1.5), // White border when unchecked
+                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                        const Text(
+                          "Remember me",
+                          style: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 14.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Paragraph(
+                      segments: [
+                        ParagraphSegment(
+                          text: "Forgot Password?",
+                          style: const TextStyle(
+                            color: AppColors.white,
+                            fontSize: 14.0,
+                          ),
+                          onTap: _onForgotPasswordPressed,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 32.0), // Updated spacing
+
+                // Login Button
+                CommonButton(
+                  text: "LOGIN",
+                  onPressed: _onLoginPressed,
+                  backgroundColor: AppColors.white,
+                  textColor: AppColors.gradientBlueDark, // Matches bottom gradient color
+                  width: double.infinity,
+                  height: 56.0, // Updated height
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                  borderRadius: BorderRadius.circular(28.0), // Adjusted for new height
+                  padding: EdgeInsets.zero,
+                  elevation: 5.0,
+                ),
+                const SizedBox(height: 32.0), // Updated spacing
+
+                // - OR - Separator
+                const Center(
+                  child: Text(
+                    "- OR -",
+                    style: TextStyle(
+                      color: AppColors.white,
+                      fontSize: 14.0,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16.0), // Updated spacing
+
+                // Sign in with Text
+                const Center(
+                  child: Text(
+                    "Sign in with",
+                    style: TextStyle(
+                      color: AppColors.white,
+                      fontSize: 14.0,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20.0),
+
+                // Social Login Buttons
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _buildSocialButton(
+                      iconText: "FB", // Using text as placeholder for icon
+                      onTap: () => _onSocialLoginPressed("Facebook"),
+                    ),
+                    const SizedBox(width: 20.0),
+                    _buildSocialButton(
+                      iconText: "G", // Using text as placeholder for icon
+                      onTap: () => _onSocialLoginPressed("Google"),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 40.0),
+
+                // Don't have an Account? Sign up
+                Center(
+                  child: Paragraph(
+                    segments: [
+                      const ParagraphSegment(
+                        text: "Don't have an Account ? ",
                         style: TextStyle(
                           color: AppColors.white,
                           fontSize: 14.0,
                         ),
                       ),
-                    ],
-                  ),
-                  Paragraph(
-                    segments: [
                       ParagraphSegment(
-                        text: "Forgot Password?",
+                        text: "Sign up",
                         style: const TextStyle(
                           color: AppColors.white,
                           fontSize: 14.0,
+                          fontWeight: FontWeight.bold,
                         ),
-                        onTap: _onForgotPasswordPressed,
+                        onTap: _onSignUpPressed,
                       ),
                     ],
                   ),
-                ],
-              ),
-              const SizedBox(height: 30.0),
-
-              // Login Button
-              CommonButton(
-                text: "LOGIN",
-                onPressed: _onLoginPressed,
-                backgroundColor: AppColors.white,
-                textColor: AppColors.gradientBlueDark,
-                width: double.infinity,
-                height: 50.0,
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-                borderRadius: BorderRadius.circular(30.0),
-                padding: EdgeInsets.zero, // Padding handled by height/width
-                elevation: 5.0, // Added elevation
-              ),
-              const SizedBox(height: 30.0),
-
-              // - OR - Separator
-              const Center(
-                child: Text(
-                  "- OR -",
-                  style: TextStyle(
-                    color: AppColors.white,
-                    fontSize: 14.0,
-                  ),
                 ),
-              ),
-              const SizedBox(height: 20.0),
-
-              // Sign in with Text
-              const Center(
-                child: Text(
-                  "Sign in with",
-                  style: TextStyle(
-                    color: AppColors.white,
-                    fontSize: 14.0,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20.0),
-
-              // Social Login Buttons
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildSocialButton(
-                    iconText: "FB", // Using text as placeholder for icon
-                    onTap: () => _onSocialLoginPressed("Facebook"),
-                  ),
-                  const SizedBox(width: 20.0),
-                  _buildSocialButton(
-                    iconText: "G", // Using text as placeholder for icon
-                    onTap: () => _onSocialLoginPressed("Google"),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 40.0),
-
-              // Don't have an Account? Sign up
-              Center(
-                child: Paragraph(
-                  segments: [
-                    const ParagraphSegment(
-                      text: "Don't have an Account ? ",
-                      style: TextStyle(
-                        color: AppColors.white,
-                        fontSize: 14.0,
-                      ),
-                    ),
-                    ParagraphSegment(
-                      text: "Sign up",
-                      style: const TextStyle(
-                        color: AppColors.white,
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      onTap: _onSignUpPressed,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20.0), // Bottom padding
-            ],
+                const SizedBox(height: 20.0), // Bottom padding
+              ],
+            ),
           ),
         ),
       ),
