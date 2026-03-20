@@ -26,4 +26,22 @@ class AppColors {
 
   /// Darker blue color for gradient background.
   static const Color gradientBlueDark = Color(0xFF3B82F6); // Corresponds to Colors.blue[700]
+
+  /// Background color for the login screen.
+  static const Color loginBackgroundColor = Color(0xFF6BB2EE);
+
+  /// Text color for the login button.
+  static const Color loginButtonTextColor = Color(0xFF6BB2EE);
+
+  /// Fill color for text fields on the login screen (semi-transparent white).
+  static final Color loginTextFieldFillColor = Colors.white.withOpacity(0.1);
+
+  /// Hint text color for text fields on the login screen (light white with transparency).
+  static final Color loginTextFieldHintColor = Colors.white.withOpacity(0.7);
+
+  /// Text color for input in text fields on the login screen.
+  static const Color loginTextFieldTextColor = Colors.white;
+
+  /// Icon color for text fields on the login screen.
+  static const Color loginTextFieldIconColor = Colors.white;
 }
