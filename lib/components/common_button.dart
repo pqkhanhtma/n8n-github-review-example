@@ -11,21 +11,23 @@ class CommonButton extends StatelessWidget {
   final FontWeight fontWeight;
   final EdgeInsetsGeometry? padding;
   final BorderRadiusGeometry? borderRadius;
-  final double? elevation; // New parameter
+  final double? elevation;
+  final Color? shadowColor;
 
   const CommonButton({
     Key? key,
     required this.text,
     this.onPressed,
-    this.backgroundColor = Colors.black87, // Default dark gray background
-    this.textColor = Colors.white70, // Default light gray text
+    this.backgroundColor = Colors.black87,
+    this.textColor = Colors.white70,
     this.width,
     this.height,
     this.fontSize = 16.0,
-    this.fontWeight = FontWeight.w300, // Thin font weight
+    this.fontWeight = FontWeight.w300,
     this.padding,
     this.borderRadius,
-    this.elevation = 0, // Default to 0, but can be overridden
+    this.elevation = 0,
+    this.shadowColor,
   }) : super(key: key);
 
   @override
@@ -37,17 +39,17 @@ class CommonButton extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: backgroundColor,
-          // foregroundColor is typically for text/icon color, but we'll explicitly set it in the Text widget's style
+          shadowColor: shadowColor,
           shape: RoundedRectangleBorder(
-            borderRadius: borderRadius ?? BorderRadius.circular(4.0), // Default slight curve
+            borderRadius: borderRadius ?? BorderRadius.circular(4.0),
           ),
           padding: padding ?? const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-          elevation: elevation, // Use the new elevation parameter
+          elevation: elevation,
         ),
         child: Text(
-          text.toUpperCase(), // Ensure text is uppercase as per description
+          text.toUpperCase(),
           style: TextStyle(
-            color: textColor, // Explicitly set text color
+            color: textColor,
             fontSize: fontSize,
             fontWeight: fontWeight,
           ),
