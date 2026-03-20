@@ -26,4 +26,7 @@ class AppColors {
 
   /// Darker blue color for gradient background.
   static const Color gradientBlueDark = Color(0xFF3B82F6); // Corresponds to Colors.blue[700]
+
+  /// Specific light blue background for the login screen.
+  static const Color loginBackground = Color(0xFF5D9FE6);
 }
