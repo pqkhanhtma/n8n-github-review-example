@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// A utility class for defining and managing application-wide color constants.
-///
-/// This class provides a centralized place for all fixed color values
-/// used throughout the application, ensuring consistency and easy modification.
 class AppColors {
-  /// Private constructor to prevent instantiation of this utility class.
   const AppColors._();
 
   /// Primary brand color for the application.
@@ -20,10 +16,15 @@ class AppColors {
   /// Pure white color, commonly used for backgrounds or text on dark surfaces.
   static const Color white = Color(0xFFFFFFFF);
 
-  // Add other application-specific colors here as needed.
-  /// Light blue color for gradient background.
-  static const Color gradientBlueLight = Color(0xFF63B3ED); // Corresponds to Colors.lightBlue[400]
+  /// Light blue color for gradient background (#6AA2F8).
+  static const Color gradientBlueLight = Color(0xFF6AA2F8);
 
-  /// Darker blue color for gradient background.
-  static const Color gradientBlueDark = Color(0xFF3B82F6); // Corresponds to Colors.blue[700]
+  /// Darker blue color for gradient background (#2C5EB8).
+  static const Color gradientBlueDark = Color(0xFF2C5EB8);
+
+  /// Facebook brand color.
+  static const Color facebookBlue = Color(0xFF1877F2);
+
+  /// Google brand color.
+  static const Color googleRed = Color(0xFFDB4437);
 }
