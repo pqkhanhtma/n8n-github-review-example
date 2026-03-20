@@ -68,9 +68,6 @@ class N8nTextField extends StatelessWidget {
   /// Custom color for the hint text. Overrides [fieldHintStyle.color] if both are provided.
   final Color? fieldHintColor;
 
-  /// A semantic description of the text field's purpose for accessibility.
-  final String? semanticsLabel;
-
   /// Creates an [N8nTextField] widget.
   const N8nTextField({
     super.key,
@@ -93,7 +90,6 @@ class N8nTextField extends StatelessWidget {
     this.showBorder = true, // Default to true to maintain existing behavior
     this.fieldTextColor,
     this.fieldHintColor,
-    this.semanticsLabel,
   });
 
   @override
@@ -124,7 +120,6 @@ class N8nTextField extends StatelessWidget {
       obscureText: obscureText,
       onChanged: onChanged,
       style: effectiveTextStyle, // Use effective text style
-      semanticsLabel: semanticsLabel, // Pass semanticsLabel
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: effectiveHintStyle, // Use effective hint style
