@@ -9,7 +9,8 @@ class RoutingModel {
   });
 }
 
-/// Centralized route definitions for the application.
+/// Centralized route definitions.
 class AppRoute {
-  static RoutingModel component = const RoutingModel(name: "component", path: "/");
+  static RoutingModel login = const RoutingModel(name: "login", path: "/");
+  static RoutingModel component = const RoutingModel(name: "component", path: "/component");
 }
