@@ -26,6 +26,12 @@ class CommonButton extends StatelessWidget {
   /// The border radius of the button corners. Defaults to 8.0.
   final double borderRadius;
 
+  /// The font size of the button text.
+  final double? fontSize;
+
+  /// The font weight of the button text.
+  final FontWeight? fontWeight;
+
   const CommonButton({
     super.key,
     required this.text,
@@ -35,11 +41,12 @@ class CommonButton extends StatelessWidget {
     this.width,
     this.height = 48.0,
     this.borderRadius = 8.0,
+    this.fontSize,
+    this.fontWeight,
   });
 
   @override
   Widget build(BuildContext context) {
-    // Default styling based on the requirement: dark grey background and light grey text.
     final Color effectiveBgColor = backgroundColor ?? const Color(0xFF212121);
     final Color effectiveTextColor = textColor ?? const Color(0xFFE0E0E0);
 
@@ -49,10 +56,8 @@ class CommonButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ButtonStyle(
-          // Using WidgetStateProperty instead of deprecated MaterialStateProperty
           backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
             if (states.contains(WidgetState.disabled)) {
-              // Using withValues(alpha:) instead of deprecated withOpacity()
               return effectiveBgColor.withValues(alpha: 0.5);
             }
             return effectiveBgColor;
@@ -67,27 +72,13 @@ class CommonButton extends StatelessWidget {
             if (states.contains(WidgetState.pressed)) {
               return effectiveTextColor.withValues(alpha: 0.1);
             }
-            if (states.contains(WidgetState.hovered)) {
-              return effectiveTextColor.withValues(alpha: 0.05);
-            }
             return null;
           }),
-          elevation: WidgetStateProperty.resolveWith<double>((states) {
-            if (states.contains(WidgetState.pressed)) return 2.0;
-            return 4.0;
-          }),
+          elevation: WidgetStateProperty.all<double>(0),
           shape: WidgetStateProperty.all<OutlinedBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(borderRadius),
-              // Adding a subtle border to match the "outlined/embossed" description
-              side: BorderSide(
-                color: effectiveTextColor.withValues(alpha: 0.2),
-                width: 1.0,
-              ),
             ),
-          ),
-          padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-            const EdgeInsets.symmetric(horizontal: 24.0),
           ),
         ),
         child: Text(
@@ -95,16 +86,9 @@ class CommonButton extends StatelessWidget {
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.labelLarge?.copyWith(
                 color: effectiveTextColor,
-                fontWeight: FontWeight.w700,
-                letterSpacing: 1.5,
-                // Subtle shadow to enhance the embossed look
-                shadows: [
-                  Shadow(
-                    color: Colors.black.withValues(alpha: 0.5),
-                    offset: const Offset(1, 1),
-                    blurRadius: 2,
-                  ),
-                ],
+                fontWeight: fontWeight ?? FontWeight.w700,
+                fontSize: fontSize,
+                letterSpacing: 1.2,
               ),
         ),
       ),
