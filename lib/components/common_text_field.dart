@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-/// A customizable text input component that supports normal text and password modes.
-///
-/// This component follows the atomic design principle and is stateless.
-/// All state changes (text input, visibility toggling) are handled via callbacks.
+/// A reusable atomic text field component that supports normal input and password modes.
+/// 
+/// This component is stateless and relies on callbacks to handle text changes and 
+/// visibility toggling, ensuring strict separation of concerns.
 class CommonTextField extends StatelessWidget {
   /// The text to display when the field is empty.
   final String? hintText;
@@ -11,27 +11,23 @@ class CommonTextField extends StatelessWidget {
   /// The controller for the text field.
   final TextEditingController? controller;
 
-  /// Whether this is a password field.
+  /// Whether this field should obscure text (e.g., for passwords).
   final bool isPassword;
 
-  /// Whether the text should be obscured. 
-  /// Managed by the parent screen when [isPassword] is true.
+  /// Whether the text is currently obscured. Managed by the parent screen.
   final bool obscureText;
 
-  /// Icon to display at the start of the field.
-  final Widget? prefixIcon;
+  /// Optional icon to display at the start of the field.
+  final IconData? prefixIcon;
 
-  /// Callback function triggered when the text changes.
+  /// Callback triggered whenever the text content changes.
   final ValueChanged<String>? onChanged;
 
-  /// Callback function triggered when the password visibility icon is pressed.
+  /// Callback triggered when the visibility toggle icon is pressed.
   final VoidCallback? onToggleVisibility;
 
   /// The type of keyboard to display.
   final TextInputType keyboardType;
-
-  /// The visual density of the text field.
-  final VisualDensity? visualDensity;
 
   const CommonTextField({
     super.key,
@@ -43,7 +39,6 @@ class CommonTextField extends StatelessWidget {
     this.onChanged,
     this.onToggleVisibility,
     this.keyboardType = TextInputType.text,
-    this.visualDensity,
   });
 
   @override
@@ -53,66 +48,48 @@ class CommonTextField extends StatelessWidget {
     const Color iconColor = Color(0xFF424242); // Dark grey
     const Color hintColor = Color(0xFF9E9E9E); // Light grey
 
-    return TextField(
-      controller: controller,
-      onChanged: onChanged,
-      obscureText: isPassword ? obscureText : false,
-      keyboardType: keyboardType,
-      style: Theme.of(context).textTheme.bodyLarge,
-      cursorColor: iconColor,
-      decoration: InputDecoration(
-        hintText: hintText,
-        hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: hintColor,
-            ),
-        prefixIcon: prefixIcon != null
-            ? Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: IconTheme(
-                  data: const IconThemeData(
-                    color: iconColor,
-                    size: 20,
+    return Container(
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: TextField(
+        controller: controller,
+        onChanged: onChanged,
+        obscureText: isPassword ? obscureText : false,
+        keyboardType: keyboardType,
+        style: Theme.of(context).textTheme.bodyLarge,
+        cursorColor: iconColor,
+        decoration: InputDecoration(
+          hintText: hintText,
+          hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: hintColor,
+              ),
+          prefixIcon: prefixIcon != null
+              ? Icon(
+                  prefixIcon,
+                  color: iconColor,
+                  size: 20,
+                )
+              : null,
+          suffixIcon: isPassword
+              ? IconButton(
+                  icon: Icon(
+                    obscureText ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                    // Using withValues(alpha:) instead of deprecated withOpacity()
+                    color: iconColor.withValues(alpha: 0.7),
                   ),
-                  child: prefixIcon!,
-                ),
-              )
-            : null,
-        prefixIconConstraints: const BoxConstraints(
-          minWidth: 40,
-          minHeight: 40,
-        ),
-        suffixIcon: isPassword
-            ? IconButton(
-                icon: Icon(
-                  obscureText ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-                  // Use withValues(alpha:) instead of deprecated withOpacity()
-                  color: iconColor.withValues(alpha: 0.6),
-                ),
-                onPressed: onToggleVisibility,
-              )
-            : null,
-        filled: true,
-        fillColor: backgroundColor,
-        contentPadding: const EdgeInsets.symmetric(
-          vertical: 16.0,
-          horizontal: 16.0,
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.0),
-          borderSide: BorderSide.none,
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.0),
-          borderSide: BorderSide.none,
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.0),
-          borderSide: BorderSide(
-            color: iconColor.withValues(alpha: 0.2),
-            width: 1.5,
+                  onPressed: onToggleVisibility,
+                )
+              : null,
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16.0,
+            vertical: 16.0,
           ),
+          // Ensure the prefix icon is centered vertically
+          isDense: true,
         ),
-        visualDensity: visualDensity,
       ),
     );
   }
