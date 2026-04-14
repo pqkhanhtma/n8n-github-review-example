@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
 
-/// A reusable button component that follows the project's design system.
+/// A reusable atomic button component designed for the project's design system.
 /// 
-/// This component supports custom colors, text, and sizing, and uses 
-/// Flutter 3.29.0 APIs like [WidgetStateProperty] and [withValues].
+/// This component is stateless and delegates interaction logic to the parent via [onPressed].
+/// It uses Flutter 3.29.0 APIs such as [WidgetStateProperty] and [withValues].
 class CommonButton extends StatelessWidget {
-  /// The text to be displayed on the button.
+  /// The text to display inside the button.
   final String text;
 
-  /// The callback that is called when the button is tapped or otherwise activated.
+  /// Callback function when the button is pressed.
   final VoidCallback? onPressed;
 
-  /// The background color of the button. Defaults to a dark grey.
+  /// The background color of the button. Defaults to a dark gray.
   final Color? backgroundColor;
 
-  /// The color of the text outline. Defaults to white.
+  /// The color of the text. Defaults to white.
   final Color? textColor;
 
-  /// The width of the button. If null, it will expand to fill its parent.
+  /// The width of the button. If null, it takes the minimum size required by the text.
   final double? width;
 
-  /// The height of the button. Defaults to 50.0.
+  /// The height of the button. Defaults to 48.0.
   final double height;
 
-  /// The border radius of the button. Defaults to 0.0 for a rectangular look.
+  /// The border radius of the button. Defaults to 4.0.
   final double borderRadius;
 
   const CommonButton({
@@ -32,51 +32,49 @@ class CommonButton extends StatelessWidget {
     this.backgroundColor,
     this.textColor,
     this.width,
-    this.height = 50.0,
-    this.borderRadius = 0.0,
+    this.height = 48.0,
+    this.borderRadius = 4.0,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    // Use a dark grey as the default background color (e.g., #212121)
-    final Color effectiveBgColor = backgroundColor ?? const Color(0xFF212121);
-    // Use white as the default text color for the outline
-    final Color effectiveTextColor = textColor ?? Colors.white;
+    // Design constants based on requirements
+    final Color defaultBgColor = const Color(0xFF2D2D2D); // Solid dark gray
+    final Color defaultTextColor = Colors.white; // Light gray or white
 
     return SizedBox(
-      width: width ?? double.infinity,
+      width: width,
       height: height,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ButtonStyle(
           backgroundColor: WidgetStateProperty.resolveWith<Color>((states) {
             if (states.contains(WidgetState.disabled)) {
-              // Use withValues(alpha:) instead of deprecated withOpacity()
-              return effectiveBgColor.withValues(alpha: 0.5);
+              // Using withValues(alpha:) instead of deprecated withOpacity()
+              return (backgroundColor ?? defaultBgColor).withValues(alpha: 0.5);
             }
-            return effectiveBgColor;
+            return backgroundColor ?? defaultBgColor;
           }),
+          foregroundColor: WidgetStateProperty.all<Color>(textColor ?? defaultTextColor),
+          elevation: WidgetStateProperty.all<double>(0),
           shape: WidgetStateProperty.all<OutlinedBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(borderRadius),
             ),
           ),
-          elevation: WidgetStateProperty.all<double>(0),
-          padding: WidgetStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.zero),
+          padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
+            const EdgeInsets.symmetric(horizontal: 24.0),
+          ),
         ),
         child: Text(
           text.toUpperCase(),
-          textAlign: TextAlign.center,
           style: TextStyle(
+            color: textColor ?? defaultTextColor,
+            // Thin, sans-serif font style as per description
+            fontWeight: FontWeight.w300,
             fontSize: 16,
-            fontWeight: FontWeight.w600,
-            letterSpacing: 2.0,
-            // Creating the "outlined" font effect as per the requirement
-            foreground: Paint()
-              ..style = PaintingStyle.stroke
-              ..strokeWidth = 1.2
-              ..color = effectiveTextColor,
+            letterSpacing: 1.5,
           ),
         ),
       ),
